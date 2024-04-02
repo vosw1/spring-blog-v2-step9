@@ -32,10 +32,10 @@ public class UserController {
         return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
-    @PostMapping("/join")
+    @PostMapping("/join") // DTO로 반환하는게 좋음
     public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
-        User user = userService.회원가입(reqDTO);
-        return ResponseEntity.ok(new ApiUtil(user));
+        UserResponse.DTO respDTO = userService.회원가입(reqDTO);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     @PostMapping("/login")

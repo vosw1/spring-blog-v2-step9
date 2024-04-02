@@ -9,6 +9,7 @@ public class ReplyRequest {
 
     @Data
     public static class SaveDTO {
+        @NotEmpty
         private Integer boardId;
         @NotEmpty
         private String comment;

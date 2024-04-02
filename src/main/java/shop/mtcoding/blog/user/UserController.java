@@ -23,13 +23,12 @@ public class UserController {
 
     @PutMapping("/api/users/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UserRequest.UpdateDTO reqDTO) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        User newSessionUser = userService.회원수정(sessionUser.getId(), reqDTO);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser newSessionUser = userService.회원수정(sessionUser.getId(), reqDTO);
         session.setAttribute("sessionUser", newSessionUser);
 
         // 이 친구만 DTO 생성위치 예외
-        UserResponse.DTO respDTO = new UserResponse.DTO(sessionUser);
-        return ResponseEntity.ok(new ApiUtil(respDTO));
+        return ResponseEntity.ok(new ApiUtil(newSessionUser));
     }
 
     @PostMapping("/join") // DTO로 반환하는게 좋음
@@ -40,9 +39,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest.LoginDTO reqDTO) {
-        User sessionUser = userService.로그인(reqDTO);
+        SessionUser sessionUser = userService.로그인(reqDTO); // 섹션에 저장한 객체가 다라짐 User -> SessionUser
         session.setAttribute("sessionUser", sessionUser);
         return ResponseEntity.ok(new ApiUtil(null));
+        // USER는 모든 객체의 부모라 괜찮음 -> 연관된 객체가 없음
+        // 연관된 객체가 있다면
     }
 
     @GetMapping("/logout")

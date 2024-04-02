@@ -1,5 +1,6 @@
 package shop.mtcoding.blog.user;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -18,5 +19,14 @@ public class SessionUser {
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.createdAt = user.getCreatedAt();
+    }
+
+    @Builder
+    public SessionUser(Integer id, String username, String password, String email, Timestamp createdAt) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.createdAt = createdAt;
     }
 }

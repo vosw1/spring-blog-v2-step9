@@ -39,11 +39,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest.LoginDTO reqDTO) {
-        SessionUser sessionUser = userService.로그인(reqDTO); // 섹션에 저장한 객체가 다라짐 User -> SessionUser
-        session.setAttribute("sessionUser", sessionUser);
-        return ResponseEntity.ok(new ApiUtil(null));
-        // USER는 모든 객체의 부모라 괜찮음 -> 연관된 객체가 없음
-        // 연관된 객체가 있다면
+        String jwt = userService.로그인(reqDTO);
+        return ResponseEntity.ok().header("Authorization", "Bearer "+jwt).body(new ApiUtil(null));
     }
 
     @GetMapping("/logout")

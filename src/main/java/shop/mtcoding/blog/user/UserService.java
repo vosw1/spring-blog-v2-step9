@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
+import shop.mtcoding.blog._core.utils.JwtUtil;
 
 import java.util.Optional;
 
@@ -30,11 +31,13 @@ public class UserService {
                 .orElseThrow(() -> new Exception404("회원정보를 찾을 수 없습니다"));
         return new UserResponse.DTO(user); // 엔티티 생명 종료
     }
-    
-    public SessionUser 로그인(UserRequest.LoginDTO reqDTO){
+
+    public String 로그인(UserRequest.LoginDTO reqDTO){
         User user = userJPARepository.findByUsernameAndPassword(reqDTO.getUsername(), reqDTO.getPassword())
                 .orElseThrow(() -> new Exception401("인증되지 않았습니다"));
-        return new SessionUser(user);
+
+        String jwt = JwtUtil.create(user);
+        return jwt;
     }
 
     @Transactional

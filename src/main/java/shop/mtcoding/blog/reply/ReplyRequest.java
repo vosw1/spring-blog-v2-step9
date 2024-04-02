@@ -1,5 +1,6 @@
 package shop.mtcoding.blog.reply;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import shop.mtcoding.blog.board.Board;
 import shop.mtcoding.blog.user.User;
@@ -9,6 +10,7 @@ public class ReplyRequest {
     @Data
     public static class SaveDTO {
         private Integer boardId;
+        @NotEmpty
         private String comment;
 
         public Reply toEntity(User sessionUser, Board board){

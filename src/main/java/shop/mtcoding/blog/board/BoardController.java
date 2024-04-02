@@ -63,15 +63,6 @@ public class BoardController {
     @PutMapping("/api/boards/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody BoardRequest.UpdateDTO reqDTO, Errors errors) {
 
-//        if(errors.hasErrors()){
-//            for (FieldError error : errors.getFieldErrors()){
-//                System.out.println(error.getField());
-//                System.out.println(error.getDefaultMessage());
-//
-//                throw new Exception400(error.getDefaultMessage()+" : "+error.getField());
-//            }
-//        }
-
         User sessionUser = (User) session.getAttribute("sessionUser");
         BoardResponse.DTO respDTO = boardService.글수정(id, sessionUser.getId(), reqDTO);
         return ResponseEntity.ok(new ApiUtil(respDTO));
